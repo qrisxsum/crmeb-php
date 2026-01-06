@@ -7,7 +7,7 @@
 # OS
 .DS_Store
 Thumbs.db
-
+docs/
 # Logs
 *.log
 
@@ -30,6 +30,8 @@ Thumbs.db
 /docker-compose/MacArm/mysql/log/
 /docker-compose/linux/mysql/data/
 /docker-compose/linux/mysql/log/
+/docker-compose/window/mysql/data/
+/docker-compose/window/mysql/log/
 
 # Frontend - Admin template
 /template/admin/dist/
