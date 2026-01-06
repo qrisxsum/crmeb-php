@@ -1,0 +1,42 @@
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment files (contain sensitive data)
+.env
+!.env.example
+
+# PHP - Runtime
+/crmeb/runtime/
+/crmeb/public/install.lock
+
+# PHP - Uploads (user generated content)
+/crmeb/public/uploads/
+
+# Docker data
+/docker-compose/mysql/data/
+/docker-compose/mysql/log/
+/docker-compose/nginx/log/
+/docker-compose/MacArm/mysql/data/
+/docker-compose/MacArm/mysql/log/
+/docker-compose/linux/mysql/data/
+/docker-compose/linux/mysql/log/
+
+# Frontend - Admin template
+/template/admin/dist/
+/template/admin/node_modules/
+/template/admin/.idea/
+
+# Frontend - Uni-app template
+/template/uni-app/node_modules/
+/template/uni-app/unpackage/
+/template/uni-app/.hbuilderx/
