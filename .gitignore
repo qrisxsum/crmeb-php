@@ -18,6 +18,10 @@ docs/
 # PHP - Runtime
 /crmeb/runtime/
 /crmeb/public/install.lock
+/crmeb/.constant
+
+# PHP - Version info (optional: uncomment if needed)
+# /crmeb/.version
 
 # PHP - Uploads (user generated content)
 /crmeb/public/uploads/
