@@ -93,13 +93,22 @@
 							</view>
 						</view>
 					</view>
+					<!-- 内嵌式规格选择组件 -->
+					<specSelector
+						:attr="attr"
+						:showQuantity="true"
+						:minQty="1"
+						:limitNum="0"
+						:unitName="storeInfo.unit_name || ''"
+						type="presell"
+						@attrVal="attrVal"
+						@ChangeAttr="ChangeAttr"
+						@ChangeCartNum="ChangeCartNum"
+						@iptCartNum="iptCartNum"
+					/>
+					<!-- 原弹窗入口（已改为内嵌展示）
 					<view class="attribute acea-row row-between-wrapper" @click="selecAttr"
 						v-if="attr.productAttr.length">
-						<!-- <view style="display: flex; align-items: center; width: 90%;">
-							{{ attrTxt }}：
-							<view class="atterTxt line1" style="width: 82%;">{{ attrValue }}</view>
-						</view>
-						<view class="iconfont icon-jiantou"></view> -->
 						<view class="flex">
 							<view style="display: flex; align-items: center; width: 90%">
 								<view class="attr-txt"> {{ attrTxt }}： </view>
@@ -118,6 +127,7 @@
 							<view class="switchTxt">{{$t(`共`)}}{{ skuArr.length }}{{$t(`种规格可选`)}}</view>
 						</view>
 					</view>
+					-->
 				</view>
 				<view class="userEvaluation" id="past1">
 					<view class="title acea-row row-between-wrapper">
@@ -174,10 +184,11 @@
 		</view>
 		<!-- 		<shareRedPackets :sharePacket="sharePacket" @listenerActionSheet="listenerActionSheet"
 			@closeChange="closeChange"></shareRedPackets> -->
-		<!-- 组件 -->
+		<!-- 原规格弹窗组件（已改为内嵌展示）
 		<productWindow :attr="attr" :isShow="0" :limitNum="1" :iSplus="1" @myevent="onMyEvent" @ChangeAttr="ChangeAttr"
 			@ChangeCartNum="ChangeCartNum" @attrVal="attrVal" @iptCartNum="iptCartNum" id="product-window"
 			:is_vip="is_vip" @getImg="showImg"></productWindow>
+		-->
 		<cus-previewImg ref="cusPreviewImg" :list="skuArr" @changeSwitch="changeSwitch"
 			@shareFriend="listenerActionSheet" />
 		<couponListWindow :coupon="coupon" v-if="coupon" @ChangCouponsClone="ChangCouponsClone"
@@ -274,6 +285,7 @@
 	import colors from "@/mixins/color";
 	import {HTTP_REQUEST_URL} from '@/config/app';
 	import cusPreviewImg from "@/components/cusPreviewImg/index.vue";
+	import specSelector from '@/components/specSelector/index.vue';
 	let app = getApp();
 	export default {
 		components: {
@@ -285,6 +297,7 @@
 			kefuIcon,
 			'jyf-parser': parser,
 			cusPreviewImg,
+			specSelector,
 			// #ifdef MP
 			authorize
 			// #endif

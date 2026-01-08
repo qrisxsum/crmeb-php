@@ -65,9 +65,21 @@
 							<view class="stock">{{$t(`已兑换`)}}：{{ storeInfo.sales }} </view>
 						</view>
 					</view>
+					<!-- 内嵌式规格选择组件 -->
+					<specSelector
+						:attr="attribute"
+						:showQuantity="false"
+						:minQty="1"
+						:limitNum="storeInfo.num || 0"
+						:unitName="storeInfo.unit_name || ''"
+						type="integral"
+						@attrVal="attrVal"
+						@ChangeAttr="ChangeAttr"
+						@ChangeCartNum="ChangeCartNum"
+						@iptCartNum="iptCartNum"
+					/>
+					<!-- 原弹窗入口（已改为内嵌展示）
 					<view class="attribute acea-row row-between-wrapper" @tap="selecAttr" v-if="attribute.productAttr.length">
-						<!-- <view class="df"><text class='atterTxt line1'>{{attr}}：{{attrValue}}</text></view>
-						<view class='iconfont icon-jiantou'></view> -->
 						<view class="flex">
 							<view style="display: flex; align-items: center; width: 90%">
 								<view class="attr-txt"> {{ attr }}： </view>
@@ -86,6 +98,7 @@
 							<view class="switchTxt">{{$t(`共`)}}{{ skuArr.length }}{{$t(`种规格可选`)}}</view>
 						</view>
 					</view>
+					-->
 				</view>
 				<view class="product-intro" id="past2">
 					<view class="title">{{$t(`产品介绍`)}}</view>
@@ -110,9 +123,11 @@
 				</view>
 			</view>
 		</view>
+		<!-- 原规格弹窗组件（已改为内嵌展示）
 		<product-window :attr="attribute" :limitNum="1" @myevent="onMyEvent" @ChangeAttr="ChangeAttr"
 			@ChangeCartNum="ChangeCartNum" @attrVal="attrVal" @iptCartNum="iptCartNum" @getImg="showImg">
 		</product-window>
+		-->
 		<cus-previewImg ref="cusPreviewImg" :list="skuArr" @changeSwitch="changeSwitch"
 			@shareFriend="listenerActionSheet" />
 		<!-- 分享按钮 -->
@@ -156,6 +171,7 @@
 	import colors from "@/mixins/color";
 	import cusPreviewImg from "@/components/cusPreviewImg/index.vue";
 	import homeList from '@/components/homeList'
+	import specSelector from '@/components/specSelector/index.vue';
 	let sysHeight = uni.getSystemInfoSync().statusBarHeight + 'px';
 	export default {
 		computed: mapGetters(['isLogin']),
@@ -240,6 +256,7 @@
 			countDown,
 			cusPreviewImg,
 			homeList,
+			specSelector,
 			// #ifdef MP
 			authorize
 			// #endif
