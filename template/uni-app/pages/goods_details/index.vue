@@ -154,6 +154,19 @@
 								</view>
 							</view>
 						</view>
+						<!-- 内嵌式规格选择组件 -->
+						<specSelector
+							:attr="attr"
+							:showQuantity="!storeInfo.is_virtual"
+							:minQty="storeInfo.min_qty || 1"
+							:limitNum="storeInfo.limit_num || 0"
+							:unitName="storeInfo.unit_name || ''"
+							@attrVal="attrVal"
+							@ChangeAttr="ChangeAttr"
+							@ChangeCartNum="ChangeCartNum"
+							@iptCartNum="iptCartNum"
+						/>
+						<!-- 原弹窗入口（已改为内嵌展示）
 						<view class="attribute acea-row row-between-wrapper" @click="selecAttr" v-if="attr.productAttr.length">
 							<view class="flex justify-between">
 								<view style="display: flex; align-items: center; width: 90%">
@@ -172,6 +185,7 @@
 								<view class="switchTxt">{{ $t(`共`) }}{{ skuArr.length }} {{ $t(`种规格可选`) }}</view>
 							</view>
 						</view>
+						-->
 						<!-- 参数 -->
 						<view
 							v-if="(storeInfo.params_list && storeInfo.params_list.length) || (storeInfo.protection_list && storeInfo.protection_list.length)"
@@ -370,7 +384,7 @@
 				:showAnimate="showAnimate"
 				@boxStatus="boxStatus"
 			></shareRedPackets>
-			<!-- 组件 -->
+			<!-- 原规格弹窗组件（已改为内嵌展示）
 			<productWindow
 				:attr="attr"
 				:isShow="1"
@@ -388,6 +402,7 @@
 				@getImg="showImg"
 				:is_virtual="storeInfo.is_virtual"
 			></productWindow>
+			-->
 			<cus-previewImg ref="cusPreviewImg" :list="skuArr" @changeSwitch="changeSwitch" @shareFriend="listenerActionSheet" />
 			<swiperPrevie ref="cusSwiperImg" :list="storeInfo.slider_image"></swiperPrevie>
 			<couponListWindow
@@ -493,7 +508,7 @@ import cusPreviewImg from '@/components/cusPreviewImg/index.vue';
 import swiperPrevie from '@/components/cusPreviewImg/swiperPrevie.vue';
 import productConSwiper from '@/components/productConSwiper';
 import couponListWindow from '@/components/couponListWindow';
-import productWindow from '@/components/productWindow';
+// import productWindow from '@/components/productWindow'; // 已改为内嵌规格选择组件
 import userEvaluation from '@/components/userEvaluation';
 import shareRedPackets from '@/components/shareRedPackets';
 import kefuIcon from '@/components/kefuIcon';
@@ -514,11 +529,12 @@ import parser from '@/components/jyf-parser/jyf-parser';
 import homeList from '@/components/homeList';
 import specs from './components/specs/index.vue';
 import serviceModal from './components/serviceModal/index.vue';
+import specSelector from '@/components/specSelector/index.vue';
 export default {
 	components: {
 		productConSwiper,
 		couponListWindow,
-		productWindow,
+		// productWindow, // 已改为内嵌规格选择组件
 		userEvaluation,
 		shareRedPackets,
 		kefuIcon,
@@ -531,7 +547,8 @@ export default {
 		parser,
 		homeList,
 		specs,
-		serviceModal
+		serviceModal,
+		specSelector
 	},
 	directives: {
 		trigger: {
@@ -1437,30 +1454,27 @@ export default {
 			});
 		},
 		/*
-		 * 加入购物车
+		 * 加入购物车（已改为内嵌规格选择，无需弹窗）
 		 */
 		goCat(news) {
 			let that = this,
 				productSelect = that.productValue[this.attrValue];
 			that.currentPage = false;
-			//打开属性
-			if (that.attrValue) {
-				//默认选中了属性，但是没有打开过属性弹窗还是自动打开让用户查看默认选中的属性
-				that.attr.cartAttr = !that.isOpen ? true : false;
-			} else {
-				if (that.isOpen) that.attr.cartAttr = true;
-				else that.attr.cartAttr = !that.attr.cartAttr;
+
+			// 如果有规格属性但未选择，提示用户
+			if (that.attr.productAttr.length && productSelect === undefined) {
+				return that.$util.Tips({
+					title: that.$t(`请先选择商品规格`)
+				});
 			}
-			//只有关闭属性弹窗时进行加入购物车
-			if (that.attr.cartAttr === true && that.isOpen === false) return (that.isOpen = true);
-			//如果有属性,没有选择,提示用户选择
-			if (that.attr.productAttr.length && productSelect === undefined && that.isOpen === true)
+			// 检查库存
+			if (that.attr.productAttr.length && productSelect && productSelect.stock <= 0) {
 				return that.$util.Tips({
 					title: that.$t(`产品库存不足，请选择其它属性`)
 				});
+			}
 			if (that.attr.productSelect.cart_num <= 0) {
 				that.attr.productSelect.cart_num = 1;
-				that.isOpen = false;
 				return that.$util.Tips({
 					title: that.$t(`请选择数量`)
 				});
@@ -1474,8 +1488,6 @@ export default {
 			};
 			postCartAdd(q)
 				.then((res) => {
-					that.isOpen = false;
-					that.attr.cartAttr = false;
 					if (news) {
 						let url = '/pages/goods/order_confirm/index?new=1&cartId=' + res.data.cartId;
 						if (this.isGiftOrder) url += '&is_gift=' + this.isGiftOrder;
@@ -1493,7 +1505,6 @@ export default {
 					this.isGiftOrder = 0;
 				})
 				.catch((err) => {
-					that.isOpen = false;
 					return that.$util.Tips({
 						title: err
 					});

@@ -62,10 +62,22 @@
 							</view>
 						</view>
 					</view>
+					<!-- 内嵌式规格选择组件 -->
+					<specSelector
+						:attr="attribute"
+						:showQuantity="true"
+						:minQty="1"
+						:limitNum="0"
+						:unitName="storeInfo.unit_name || ''"
+						type="combination"
+						@attrVal="attrVal"
+						@ChangeAttr="ChangeAttr"
+						@ChangeCartNum="ChangeCartNum"
+						@iptCartNum="iptCartNum"
+					/>
+					<!-- 原弹窗入口（已改为内嵌展示）
 					<view class='attribute acea-row row-between-wrapper' @tap='selecAttr'
 						v-if='attribute.productAttr.length'>
-						<!-- 		<view>{{attr}}：<text class='atterTxt'>{{attrValue}}</text></view>
-						<view class='iconfont icon-jiantou'></view> -->
 						<view class="flex">
 							<view style="display: flex; align-items: center; width: 90%">
 								<view class="attr-txt"> {{ attr }}： </view>
@@ -84,6 +96,7 @@
 							<view class="switchTxt">{{$t(`共`)}}{{ skuArr.length }}{{$t(`种规格可选`)}}</view>
 						</view>
 					</view>
+					-->
 					<view class="bg-color">
 						<view class='notice acea-row row-middle'>
 							<view class='num font-num'>
@@ -268,9 +281,11 @@
 		<!-- #ifdef MP -->
 		<!-- <authorize @onLoadFun="onLoadFun" :isAuto="isAuto" :isShowAuth="isShowAuth" @authColse="authColse"></authorize> -->
 		<!-- #endif -->
+		<!-- 原规格弹窗组件（已改为内嵌展示）
 		<product-window :attr='attribute' :limitNum='1' :type="'combination'" @myevent="onMyEvent" @ChangeAttr="ChangeAttr"
 			@ChangeCartNum="ChangeCartNum" @iptCartNum="iptCartNum" @attrVal="attrVal" @getImg="showImg">
 		</product-window>
+		-->
 		<swiperPrevie ref="cusSwiperImg" :list="storeInfo.images"></swiperPrevie>
 		<cus-previewImg ref="cusPreviewImg" :list="skuArr" @changeSwitch="changeSwitch"
 			@shareFriend="listenerActionSheet" />
@@ -334,6 +349,7 @@
 		HTTP_REQUEST_URL
 	} from '@/config/app';
 	import homeList from '@/components/homeList';
+	import specSelector from '@/components/specSelector/index.vue';
 	let sysHeight = uni.getSystemInfoSync().statusBarHeight + 'px';
 	export default {
 		components: {
@@ -349,7 +365,8 @@
 			parser,
 			menuIcon,
 			homeList,
-			swiperPrevie
+			swiperPrevie,
+			specSelector
 		},
 		computed: mapGetters({
 			'isLogin': 'isLogin',
