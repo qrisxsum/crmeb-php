@@ -21,10 +21,7 @@ docs/
 /crmeb/.constant
 
 # PHP - Version info (optional: uncomment if needed)
-# /crmeb/.version
-
-# PHP - Uploads (user generated content)
-/crmeb/public/uploads/
+/crmeb/.version
 
 # Docker data
 /docker-compose/mysql/data/
