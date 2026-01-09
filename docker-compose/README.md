@@ -1,55 +1,49 @@
-# docker-compose 快速运行项目
-## 1、安装docker
-docker 官网下载
-https://www.docker.com/products/docker-desktop
-或命令安装
-```
-curl -sSL https://get.daocloud.io/docker | sh
-```
-## 2、安装docker-compose
-https://www.runoob.com/docker/docker-compose.html
-## 3、下载CRMEB程序
-建议去下载最新开源代码 https://gitee.com/ZhongBangKeJi/CRMEB
-程序放到docker-compose 同级目录下
-## 4、启动项目
-```
-进入docker-compose目录 cd /docker-compose
+# Docker Compose（按操作系统）
 
-运行命令：docker-compose up -d
-```
-进入PHP容器启动队列、定时任务、长连接命令
-```
-进入容器：docker exec -it crmeb_php /bin/bash
-进入到项目目录：cd /var/www
-定时任务命令：php think timer start --d
-长连接命令：php think workerman start --d
-队列命令：php think queue:listen --queue
-```
-## 5、访问CRMEB 系统
-http://localhost:8011/
-## 6、安装CRMEB
-### Mysql数据库信息：
-```
-Host:192.168.10.11
-Post:3306
-user:root
-pwd:123456
-```
-### Redis信息：
-```
-Host:192.168.10.10
-Post:6379
-db:0
-pwd:123456
-```
-## 7、常见问题
-1. 端口被占用进入docker-compose.yml 里面修改端口
+本项目提供按平台划分的 `docker-compose` 配置，请根据你的运行环境进入对应目录启动：
 
-2. 如果运行docker-compose up -d 启动失败，请查看docker-compose.yml 修改里面镜像地址或其它配置
+- Mac（Apple Silicon / M 芯片）：`docker-compose/MacArm`
+- Mac（Intel）：`docker-compose/MacIntel`
+- Linux：`docker-compose/linux`
+- Windows：`docker-compose/window`
 
-3. Error response from daemon: Address already in use 报错
-  一般情况下是设置的ip被占用，修改下某个容器下的ipv4_address地址
+## 启动步骤
 
-4. MYSQL容器无法启动，没有任何日志
-  注意m1芯片下需要使用mysql镜像daocloud.io/library/mysql:5.7.5-m15；其他任何情况下都
-   使用mysql:5.7的镜像
+以 MacIntel 为例：
+
+```bash
+cd ./docker-compose/MacIntel
+docker-compose up -d
+# 或：docker compose up -d
+```
+
+MacArm 可使用 `make run`（见 `docker-compose/MacArm/README.md`）。
+
+## 运行依赖与目录结构
+
+各平台配置会把项目代码挂载到容器中，默认使用 `../../crmeb`，因此请保持仓库目录结构不变：
+
+- `crmeb/`：CRMEB 后端代码目录
+- `docker-compose/<平台>/`：对应平台的 docker-compose 配置与 mysql/nginx/php/redis 配置
+
+## 常用命令
+
+进入 PHP 容器后可启动定时任务/长连接/队列（根据项目实际需要选择）：
+
+```bash
+docker exec -it crmeb_php /bin/bash
+cd /var/www
+php think timer start --d
+php think workerman start --d
+php think queue:listen --queue
+```
+
+## 访问与默认信息
+
+- 后台地址：`http://localhost:8011/`
+- MySQL：`192.168.10.11:3306`，用户 `root`，密码 `123456`，库 `crmeb`
+- Redis：`192.168.10.10:6379`，密码 `123456`（DB `0`）
+
+## 说明
+
+为避免配置重复与误用，`docker-compose/` 根目录不再提供通用的 `docker-compose.yml` 与通用配置目录，请统一使用各平台子目录。

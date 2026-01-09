@@ -14,7 +14,8 @@ https://www.runoob.com/docker/docker-compose.html
 程序放到docker-compose 同级目录下
 ## 4、启动项目
 ```
-进入docker-compose目录 cd /docker-compose
+进入 docker-compose/window 目录：
+cd ./docker-compose/window
 
 运行命令：docker-compose up -d
 
