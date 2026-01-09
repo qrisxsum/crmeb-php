@@ -23,6 +23,12 @@ docs/
 # PHP - Version info (optional: uncomment if needed)
 /crmeb/.version
 
+# Frontend - H5 build output (generated)
+/crmeb/public/index.html
+/crmeb/public/static/
+/crmeb/public/assets/
+/crmeb/public/pages/
+
 # Docker data
 /docker-compose/mysql/data/
 /docker-compose/mysql/log/

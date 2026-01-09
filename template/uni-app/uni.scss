@@ -20,6 +20,12 @@ $uni-color-success: #4cd964;
 $uni-color-warning: #f0ad4e;
 $uni-color-error: #dd524d;
 
+/* 文字基本颜色 */
+$uni-text-color: #333; // 基本色
+$uni-text-color-grey: #999; // 辅助灰色
+$uni-text-color-placeholder: #808080; // 占位符
+$uni-text-color-disable: #c0c0c0; // 禁用
+
 /* crmeb颜色变量 */
 $theme-color:#E93323; // 主题色-主色
 $theme-color-opacity:rgba(233,51,35,.6); // 主题色-透明色

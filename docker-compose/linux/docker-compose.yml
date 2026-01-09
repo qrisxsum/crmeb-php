@@ -96,7 +96,7 @@ services:
     # image: daocloud.io/library/nginx:1.19.1-alpine
     restart: always
     ports:
-      - 8011:80
+      - 8080:80
       # - 443:443
     # 依赖关系 先跑php
     depends_on:

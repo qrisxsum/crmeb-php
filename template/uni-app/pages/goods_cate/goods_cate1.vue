@@ -232,7 +232,7 @@
 	}
 </script>
 <style scoped lang="scss">
-	/deep/uni-scroll-view {
+	::v-deep uni-scroll-view {
 		padding-bottom: 0 !important;
 	}
 
@@ -388,10 +388,9 @@
 
 	.productSort .conter .list .item .picture {
 
-		/deep/,
-		/deep/image,
-		/deep/.easy-loadimage,
-		/deep/uni-image {
+		::v-deep image,
+		::v-deep .easy-loadimage,
+		::v-deep uni-image {
 
 			width: 120rpx;
 			height: 120rpx;
